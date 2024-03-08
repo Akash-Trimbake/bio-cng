@@ -22,12 +22,13 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" element={<Profile />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/contact-us" element={<ContactUs />} />
+
               <Route path="/customer-data" element={<CustomerData />} />
               <Route path="/userInfoForm" element={<UserInfoForm />} />
               <Route path="/register" element={<Signup />} />
             </Route>
             <Route path="/" element={<Home />} />
+            <Route path="/contact-us" element={<ContactUs />} />
             <Route element={<PublicRoutes />}>
               <Route path="/login" element={<Login />} exact />
             </Route>
