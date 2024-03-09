@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 
 const Topbar = () => {
   let active = "text-[#c5c567]";
-
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -19,6 +20,12 @@ const Topbar = () => {
   const handleLinkClick = () => {
     // Close the navbar
     setIsMenuOpen(false);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   return (
@@ -88,15 +95,14 @@ const Topbar = () => {
               Contact Us{" "}
             </a>
           </li>
-          {localStorage.getItem("token") ? (
+          {isLoggedIn ? (
             <li>
-              <a
-                href="/profile"
-                className={currentPath === "/profile" ? active : ""}
-                onClick={handleLinkClick}
+              <button
+                onClick={logout}
+                className="text-white bg-red-500 rounded-lg py-1 px-4"
               >
-                Profile
-              </a>
+                Logout
+              </button>
             </li>
           ) : (
             <li>
