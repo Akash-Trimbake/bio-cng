@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import axios from "axios";
 
 const UserInfoForm = () => {
   const [fullName, setFullName] = useState("");
@@ -29,8 +30,30 @@ const UserInfoForm = () => {
     setSelectedImage(URL.createObjectURL(e.target.files[0]));
     setSignature(e.target.files[0]);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const token = JSON.parse(localStorage.getItem("token"));
+    const body = {
+      full_name: fullName,
+      gender: gender,
+      dob: dob,
+      address: address,
+      city: city,
+      state: stateProvince,
+      postal_code: zipCode,
+      phone: phoneNumber,
+      email: email,
+      aadhar_number: adharNo,
+      cow_count: noOfCow,
+      farm_location: farmLocation,
+      farming_type: farmingType,
+      farm_size: farmSize,
+      payment_amount: amount,
+      payment_mode: paymentMode, // payment mode : 'cash' or 'upi'
+      receipt_number: receiptNo,
+      Date: date,
+    };
 
     // Basic validation
     if (
@@ -54,28 +77,21 @@ const UserInfoForm = () => {
       signature &&
       date
     ) {
-      // All fields are filled, continue with form submission
-      console.log({
-        fullName,
-        dob,
-        gender,
-        address,
-        city,
-        stateProvince,
-        zipCode,
-        phoneNumber,
-        email,
-        adharNo,
-        noOfCow,
-        farmLocation,
-        farmingType,
-        farmSize,
-        amount,
-        paymentMode,
-        receiptNo,
-        signature,
-        date,
-      });
+      try {
+        const submitForm = await axios.post(
+          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/form`,
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${token.access}`,
+            },
+          }
+        );
+        console.log("submitForm data", submitForm.data);
+        // Clear formData after successful signup
+      } catch (error) {
+        console.log("Error occurred while submitting Form", error);
+      }
     } else {
       // Inform the user to fill all fields
       alert("Please fill all fields before submitting.");
@@ -108,7 +124,7 @@ const UserInfoForm = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col md:flex-row items-start md:items-center">
+            <div className="flex flex-col gap-2 md:flex-row items-start md:items-center">
               <p className="">Date of Birth:</p>
 
               <TextField
@@ -122,7 +138,7 @@ const UserInfoForm = () => {
               />
             </div>
 
-            <div className="flex flex-col md:flex-row items-start md:items-center">
+            <div className="flex flex-col gap-2 md:flex-row items-start md:items-center">
               <p className="">Gender:</p>
 
               <Select
