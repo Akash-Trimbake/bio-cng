@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -17,7 +16,7 @@ function App() {
     <>
       <Router>
         <Topbar />
-        <div className="h-screen bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-600 to-green-900">
+        <div className="h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-600 to-green-900">
           <Routes>
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" element={<Profile />} />

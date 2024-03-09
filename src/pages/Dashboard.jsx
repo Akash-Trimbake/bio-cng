@@ -46,6 +46,8 @@ const Dashboard = () => {
 
   const handleComponentChange = (component) => {
     setActiveComponent(component);
+    // Scroll to the component id
+    document.getElementById("component").scrollIntoView();
   };
 
   const renderActiveComponent = () => {
@@ -62,8 +64,8 @@ const Dashboard = () => {
   return (
     <div>
       <div className="flex flex-col justify-center items-center">
-        <div className="grid grid-cols-3 gap-4 w-4/5 my-4">
-          <div className="w-full bg-gray-50 rounded-lg pt-6 pb-2 px-8 shadow-lg">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 w-11/12 md:w-4/5 my-4">
+          <div className="w-full flex flex-col justify-between bg-gray-50 rounded-lg pt-6 pb-2 px-4 md:px-8 shadow-lg">
             <div className="flex flex-row justify-between items-center">
               <h4 className="text-lg font-semibold text-green-700">
                 Total Users:
@@ -75,14 +77,14 @@ const Dashboard = () => {
             <div className="text-center pt-3">
               <button
                 onClick={() => handleComponentChange(null)}
-                className="rounded-lg bg-green-700 text-gray-50 font-semibold text-sm py-2 px-6 my-2"
+                className="rounded-lg bg-green-700 text-gray-50 font-semibold text-sm py-2 px-4 md:px-6 my-2"
               >
-                Add new user
+                Add user
               </button>
             </div>
           </div>
 
-          <div className="w-full bg-gray-50 rounded-lg pt-6 pb-2 px-8 shadow-lg">
+          <div className="w-full flex flex-col justify-between bg-gray-50 rounded-lg pt-6 pb-2 px-4 md:px-8 shadow-lg">
             <div className="flex flex-row justify-between items-center">
               <h4 className="text-lg font-semibold text-green-700">
                 Total Districts:
@@ -94,14 +96,14 @@ const Dashboard = () => {
             <div className="text-center pt-3">
               <button
                 onClick={() => handleComponentChange("AddDistrict")}
-                className="rounded-lg bg-green-700 text-gray-50 font-semibold text-sm py-2 px-6 my-2"
+                className="rounded-lg bg-green-700 text-gray-50 font-semibold text-sm py-2 px-4 md:px-6 my-2"
               >
-                Add new District
+                Add District
               </button>
             </div>
           </div>
 
-          <div className="w-full bg-gray-50 rounded-lg pt-6 pb-2 px-8 shadow-lg">
+          <div className="w-full flex flex-col justify-between bg-gray-50 rounded-lg pt-6 pb-2 px-4 md:px-8 shadow-lg">
             <div className="flex flex-row justify-between items-center">
               <h4 className="text-lg font-semibold text-green-700">
                 Total Talukas:
@@ -113,15 +115,17 @@ const Dashboard = () => {
             <div className="text-center pt-3">
               <button
                 onClick={() => handleComponentChange("AddTaluka")}
-                className="rounded-lg bg-green-700 text-gray-50 font-semibold text-sm py-2 px-6 my-2"
+                className="rounded-lg bg-green-700 text-gray-50 font-semibold text-sm py-2 px-4 md:px-6 my-2"
               >
-                Add new Taluka
+                Add Taluka
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div>{renderActiveComponent()}</div>
+      <div className="py-4" id="component">
+        {renderActiveComponent()}
+      </div>
     </div>
   );
 };

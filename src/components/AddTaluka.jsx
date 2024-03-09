@@ -70,7 +70,7 @@ const AddTaluka = () => {
     <div className="flex flex-col justify-center items-center h-full">
       <form
         onSubmit={handleSubmit}
-        className="w-2/3 bg-white p-8 rounded-xl shadow-lg flex flex-col gap-4"
+        className="w-4/5 md:w-2/3 bg-white p-8 rounded-xl shadow-lg flex flex-col gap-4"
       >
         <div className="text-center">
           <h3 className="font-semibold text-2xl text-green-700">
