@@ -3,6 +3,7 @@ import axios from "axios";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Signup = () => {
   const [roles, setRoles] = useState([]);
@@ -15,6 +16,7 @@ const Signup = () => {
     district: "",
     sub_district: "",
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,6 +94,8 @@ const Signup = () => {
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
+
     const token = JSON.parse(localStorage.getItem("token"));
     try {
       const signup = await axios.post(
@@ -114,6 +118,8 @@ const Signup = () => {
       });
     } catch (error) {
       console.log("Error occurred while creating user", error);
+    } finally {
+      setLoading(false); // Stop loading regardless of success or failure
     }
   };
 
@@ -174,52 +180,63 @@ const Signup = () => {
               ))}
           </Select>
         </div>
-        <div className="flex flex-row items-center gap-2">
-          <p>District:</p>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            value={formData.district}
-            onChange={handleDistrictChange}
-            fullWidth
-            variant="standard"
-          >
-            <MenuItem value="">
-              <em>Select a District</em>
-            </MenuItem>
-            {districts.map((district) => (
-              <MenuItem key={district.id} value={district.id}>
-                {district.district_name}
+
+        {formData.hierarchyLevel > 0 && (
+          <div className="flex flex-row items-center gap-2">
+            <p>District:</p>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              value={formData.district}
+              onChange={handleDistrictChange}
+              fullWidth
+              variant="standard"
+            >
+              <MenuItem value="">
+                <em>Select a District</em>
               </MenuItem>
-            ))}
-          </Select>
-        </div>
-        <div className="flex flex-row items-center gap-2">
-          <p>Taluka:</p>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={formData.sub_district}
-            onChange={handleTalukaChange}
-            fullWidth
-            variant="standard"
-          >
-            <MenuItem value="">
-              <em>Select a Taluka</em>
-            </MenuItem>
-            {talukas.map((taluka) => (
-              <MenuItem key={taluka.id} value={taluka.id}>
-                {taluka.sub_district_name}
+              {districts.map((district) => (
+                <MenuItem key={district.id} value={district.id}>
+                  {district.district_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+        )}
+
+        {formData.hierarchyLevel > 1 && (
+          <div className="flex flex-row items-center gap-2">
+            <p>Taluka:</p>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={formData.sub_district}
+              onChange={handleTalukaChange}
+              fullWidth
+              variant="standard"
+            >
+              <MenuItem value="">
+                <em>Select a Taluka</em>
               </MenuItem>
-            ))}
-          </Select>
-        </div>
+              {talukas.map((taluka) => (
+                <MenuItem key={taluka.id} value={taluka.id}>
+                  {taluka.sub_district_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+        )}
+
         <div className="text-center">
-          <button
-            type="submit"
-            className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 w-1/3 text-center"
-          >
-            Submit
-          </button>
+          {loading ? (
+            <CircularProgress style={{ color: "green" }} />
+          ) : (
+            <button
+              type="submit"
+              className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 w-1/3 text-center"
+            >
+              Submit
+            </button>
+          )}
         </div>
       </form>
     </div>

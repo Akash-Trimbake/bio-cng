@@ -3,11 +3,13 @@ import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormsTable from "./FormsTable";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const UserForms = () => {
   const [selectedUser, setSelectedUser] = useState("");
   const [forms, setForms] = useState([]);
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -35,6 +37,8 @@ const UserForms = () => {
   };
 
   const fetchForms = async () => {
+    setLoading(true); // Start loading
+
     const token = JSON.parse(localStorage.getItem("token"));
     try {
       const getUserForms = await axios.get(
@@ -52,6 +56,8 @@ const UserForms = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
       // Handle error if needed
+    } finally {
+      setLoading(false); // Stop loading regardless of success or failure
     }
   };
 
@@ -82,12 +88,16 @@ const UserForms = () => {
       </div>
 
       <div className="text-center mt-4">
-        <button
-          onClick={fetchForms}
-          className="bg-green-600 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-1 px-4 w-full my-2 "
-        >
-          Get Forms
-        </button>
+        {loading ? (
+          <CircularProgress style={{ color: "green" }} />
+        ) : (
+          <button
+            onClick={fetchForms}
+            className="bg-green-600 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-1 px-4 w-full my-2 "
+          >
+            Get Forms
+          </button>
+        )}
       </div>
 
       {forms.length > 0 && (

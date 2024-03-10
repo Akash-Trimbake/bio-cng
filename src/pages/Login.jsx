@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   // Function to handle form input changes
   const handleChange = (e) => {
@@ -22,6 +24,7 @@ const Login = () => {
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
     try {
       const login = await axios.post(
@@ -37,19 +40,10 @@ const Login = () => {
       }
     } catch (error) {
       console.log("error occured while login the user", error);
+    } finally {
+      setLoading(false); // Stop loading regardless of success or failure
     }
   };
-  // const healthCheck = async () => {
-  //   try {
-  //     const res = await axios.get(
-  //       `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/health`
-  //     );
-
-  //     console.log("health data", res);
-  //   } catch (error) {
-  //     console.log("error occured while login the user", error);
-  //   }
-  // };
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
@@ -92,12 +86,16 @@ const Login = () => {
         </div>
 
         <div className="text-center">
-          <button
-            type="submit"
-            className="bg-green-500 text-white rounded-lg py-2 w-1/3 text-center"
-          >
-            Login
-          </button>
+          {loading ? (
+            <CircularProgress style={{ color: "green" }} />
+          ) : (
+            <button
+              type="submit"
+              className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 w-1/3 text-center"
+            >
+              Login
+            </button>
+          )}
         </div>
       </form>
       {/* <button onClick={healthCheck}>healthCheck</button> */}

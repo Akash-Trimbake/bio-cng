@@ -3,12 +3,14 @@ import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormsTable from "./FormsTable";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const GeoForms = ({ type }) => {
   const [districts, setDistricts] = useState([]);
   const [talukas, setTalukas] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [forms, setForms] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleRoleChange = (event) => {
     setSelectedDistrict(event.target.value);
@@ -50,6 +52,8 @@ const GeoForms = ({ type }) => {
   }, []);
 
   const fetchForms = async () => {
+    setLoading(true); // Start loading
+
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       if (type === "district") {
@@ -81,6 +85,8 @@ const GeoForms = ({ type }) => {
     } catch (error) {
       console.error("Error fetching data:", error);
       // Handle error if needed
+    } finally {
+      setLoading(false); // Stop loading regardless of success or failure
     }
   };
 
@@ -122,12 +128,16 @@ const GeoForms = ({ type }) => {
         </Select>
       </div>
       <div className="text-center mt-4">
-        <button
-          onClick={fetchForms}
-          className="bg-green-600 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-1 px-4 w-full my-2 "
-        >
-          Get Forms
-        </button>
+        {loading ? (
+          <CircularProgress style={{ color: "green" }} />
+        ) : (
+          <button
+            onClick={fetchForms}
+            className="bg-green-600 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-1 px-4 w-full my-2 "
+          >
+            Get Forms
+          </button>
+        )}
       </div>
 
       {forms.length > 0 && (

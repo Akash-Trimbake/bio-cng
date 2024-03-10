@@ -4,6 +4,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import axios from "axios";
 import QRImg from "../assets/QR.jpg";
+import CircularProgress from "@mui/material/CircularProgress";
+import { supabase } from "../helper/supabaseClient";
 
 const UserInfoForm = () => {
   const [fullName, setFullName] = useState("");
@@ -26,6 +28,7 @@ const UserInfoForm = () => {
   const [paymentMode, setPaymentMode] = useState("");
   const [receiptNo, setReceiptNo] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (e) => {
     setSelectedImage(URL.createObjectURL(e.target.files[0]));
@@ -33,6 +36,7 @@ const UserInfoForm = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
     const token = JSON.parse(localStorage.getItem("token"));
     const body = {
@@ -89,9 +93,45 @@ const UserInfoForm = () => {
           }
         );
         console.log("submitForm data", submitForm.data);
-        // Clear formData after successful signup
+
+        if (submitForm) {
+          let fileName = `${submitForm.data.id}`;
+          console.log("fileName", fileName);
+
+          const { data, error } = await supabase.storage
+            .from("signatures")
+            .upload(fileName, selectedImage, {
+              cacheControl: "3600",
+              upsert: false,
+            });
+
+          console.log("signature upload success", data);
+        }
+
+        // Clear formData after successful form submission
+        // setFullName("");
+        // setGender("");
+        // setDob("");
+        // setAddress("");
+        // setCity("");
+        // setStateProvince("");
+        // setZipCode("");
+        // setPhoneNumber("");
+        // setEmail("");
+        // setAdharNo("");
+        // setNoOfCow("");
+        // setFarmLocation("");
+        // setFarmingType("");
+        // setFarmSize("");
+        // setAmount("");
+        // setPaymentMode("");
+        // setReceiptNo("");
+        // setSignature("");
+        // setDate("");
       } catch (error) {
         console.log("Error occurred while submitting Form", error);
+      } finally {
+        setLoading(false); // Stop loading regardless of success or failure
       }
     } else {
       // Inform the user to fill all fields
@@ -411,12 +451,16 @@ const UserInfoForm = () => {
         </div>
 
         <div className="text-center my-4 ">
-          <button
-            type="submit"
-            className="bg-green-600 text-white text-lg font-semibold px-4 py-1 rounded-lg w-1/2"
-          >
-            Submit
-          </button>
+          {loading ? (
+            <CircularProgress style={{ color: "green" }} />
+          ) : (
+            <button
+              type="submit"
+              className="bg-green-600 text-white text-lg font-semibold px-4 py-1 rounded-lg w-1/2"
+            >
+              Submit
+            </button>
+          )}
         </div>
       </form>
     </div>

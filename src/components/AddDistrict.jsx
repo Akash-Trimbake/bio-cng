@@ -1,14 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const AddDistrict = () => {
   const [districtName, setDistrictName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
     console.log(districtName);
     e.preventDefault();
+    setLoading(true); // Start loading
+
     const token = JSON.parse(localStorage.getItem("token"));
     try {
       const response = await axios.post(
@@ -25,6 +29,8 @@ const AddDistrict = () => {
       setDistrictName(""); // Clear the districtName after successful submission
     } catch (error) {
       console.log("Error occurred while adding district.", error);
+    } finally {
+      setLoading(false); // Stop loading regardless of success or failure
     }
   };
 
@@ -58,12 +64,16 @@ const AddDistrict = () => {
           />
         </div>
         <div className="text-center">
-          <button
-            type="submit"
-            className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 w-1/3 text-center"
-          >
-            Submit
-          </button>
+          {loading ? (
+            <CircularProgress style={{ color: "green" }} />
+          ) : (
+            <button
+              type="submit"
+              className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 w-1/3 text-center"
+            >
+              Submit
+            </button>
+          )}
         </div>
       </form>
     </div>

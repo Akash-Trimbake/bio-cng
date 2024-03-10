@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import FormsTable from "../components/FormsTable";
 import GeoForms from "../components/GeoForms";
 import UserForms from "../components/UserForms";
+import { supabase } from "../helper/supabaseClient";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -49,9 +49,46 @@ export default function CustomerData() {
     setValue(newValue);
   };
 
+  const downloadData = async () => {
+    try {
+      let { data: user_info, error } = await supabase
+        .from("logic_form")
+        .select("*");
+
+      if (error) {
+        throw error;
+      }
+
+      // Convert the data to CSV format
+      const csvContent =
+        "data:text/csv;charset=utf-8," +
+        Object.keys(user_info[0]).join(",") +
+        "\n" +
+        user_info.map((row) => Object.values(row).join(",")).join("\n");
+
+      // Create a CSV file and trigger download
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "user_forms.csv");
+      document.body.appendChild(link);
+      link.click();
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+    }
+  };
+
   return (
-    <div className="flex justify-center items-center">
-      <div className="bg-white w-11/12 md:w-2/3 rounded-lg my-4 md:py-4">
+    <div className="flex flex-col justify-center items-center">
+      <div className="mt-4 mb-2 flex flex-col justify-end items-end">
+        <button
+          onClick={downloadData}
+          className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 px-4 text-center"
+        >
+          Download data
+        </button>
+      </div>
+      <div className="bg-white w-11/12 md:w-2/3 rounded-lg md:py-4">
         <div>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs value={value} onChange={handleChange} centered>

@@ -10,6 +10,7 @@ import PrivateRoutes from "./utils/privateRoutes";
 import PublicRoutes from "./utils/publicRoutes";
 import UserInfoForm from "./components/UserInfoForm";
 import Dashboard from "./pages/Dashboard";
+import MyForms from "./pages/MyForms";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" element={<Profile />} />
               <Route path="/dashboard" element={<Dashboard />} />
-
+              <Route path="/my-forms" element={<MyForms />} />
               <Route path="/customer-data" element={<CustomerData />} />
               <Route path="/userInfoForm" element={<UserInfoForm />} />
               <Route path="/register" element={<Signup />} />

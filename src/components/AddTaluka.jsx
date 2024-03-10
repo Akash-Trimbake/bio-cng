@@ -3,12 +3,14 @@ import axios from "axios";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const AddTaluka = () => {
   const [districts, setDistricts] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [talukaName, setTalukaName] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchDistricts = async () => {
@@ -35,6 +37,8 @@ const AddTaluka = () => {
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
+
     const token = JSON.parse(localStorage.getItem("token"));
     try {
       const response = await axios.post(
@@ -53,6 +57,8 @@ const AddTaluka = () => {
     } catch (error) {
       console.log("Error occurred while adding taluka.", error);
       setError("Error occurred while adding taluka."); // Set error message
+    } finally {
+      setLoading(false); // Stop loading regardless of success or failure
     }
   };
 
@@ -117,12 +123,16 @@ const AddTaluka = () => {
         </div>
         {error && <p className="text-red-500 text-center">{error}</p>}
         <div className="text-center">
-          <button
-            type="submit"
-            className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 w-1/3 text-center"
-          >
-            Submit
-          </button>
+          {loading ? (
+            <CircularProgress style={{ color: "green" }} />
+          ) : (
+            <button
+              type="submit"
+              className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 w-1/3 text-center"
+            >
+              Submit
+            </button>
+          )}
         </div>
       </form>
     </div>

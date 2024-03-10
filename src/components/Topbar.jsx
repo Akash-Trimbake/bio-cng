@@ -8,10 +8,12 @@ const Topbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname); // Store current path
+  const token = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
     // Check if token exists in local storage
-    const token = localStorage.getItem("token");
+    const token = JSON.parse(localStorage.getItem("token"));
+    // console.log(token.claims.hierarchyLevel);
     setIsLoggedIn(token !== null);
   }, []);
 
@@ -82,36 +84,59 @@ const Topbar = () => {
               Home{" "}
             </a>
           </li>
-          <li
-            className={`py-1 ${
-              currentPath === "/dashboard"
-                ? "border-b border-[#c5c567]"
-                : "border-b"
-            }`}
-          >
-            <a
-              href="/dashboard"
-              className={currentPath === "/dashboard" ? active : ""}
-              onClick={handleLinkClick}
+
+          {token && token.claims && token.claims.hierarchyLevel < 3 ? (
+            <li
+              className={`py-1 ${
+                currentPath === "/dashboard"
+                  ? "border-b border-[#c5c567]"
+                  : "border-b"
+              }`}
             >
-              Dashboard{" "}
-            </a>
-          </li>
-          <li
-            className={`py-1 ${
-              currentPath === "/customer-data"
-                ? "border-b border-[#c5c567]"
-                : "border-b"
-            }`}
-          >
-            <a
-              href="/customer-data"
-              className={currentPath === "/customer-data" ? active : ""}
-              onClick={handleLinkClick}
+              <a
+                href="/dashboard"
+                className={currentPath === "/dashboard" ? active : ""}
+                onClick={handleLinkClick}
+              >
+                Dashboard{" "}
+              </a>
+            </li>
+          ) : null}
+
+          {token && token.claims && token.claims.hierarchyLevel < 3 ? (
+            <li
+              className={`py-1 ${
+                currentPath === "/customer-data"
+                  ? "border-b border-[#c5c567]"
+                  : "border-b"
+              }`}
             >
-              Customer Data{" "}
-            </a>
-          </li>
+              <a
+                href="/customer-data"
+                className={currentPath === "/customer-data" ? active : ""}
+                onClick={handleLinkClick}
+              >
+                Customer Data{" "}
+              </a>
+            </li>
+          ) : (
+            <li
+              className={`py-1 ${
+                currentPath === "/my-forms"
+                  ? "border-b border-[#c5c567]"
+                  : "border-b"
+              }`}
+            >
+              <a
+                href="/my-forms"
+                className={currentPath === "/my-forms" ? active : ""}
+                onClick={handleLinkClick}
+              >
+                My forms{" "}
+              </a>
+            </li>
+          )}
+
           <li
             className={`py-1 ${
               currentPath === "/contact-us"
