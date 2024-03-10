@@ -131,7 +131,7 @@ const Topbar = () => {
             <li className="py-1">
               <button
                 onClick={logout}
-                className="text-white bg-red-500 rounded-lg py-1 px-4"
+                className="text-white bg-red-500 border border-red-500 hover:bg-gray-50 hover:text-red-500 rounded-lg py-1 px-4"
               >
                 Logout
               </button>

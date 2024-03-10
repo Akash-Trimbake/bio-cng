@@ -84,7 +84,7 @@ const UserForms = () => {
       <div className="text-center mt-4">
         <button
           onClick={fetchForms}
-          className="bg-green-600 text-white rounded-lg py-1 px-4 w-full my-2 "
+          className="bg-green-600 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-1 px-4 w-full my-2 "
         >
           Get Forms
         </button>

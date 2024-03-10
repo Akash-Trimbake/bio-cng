@@ -77,7 +77,7 @@ const Dashboard = () => {
             <div className="text-center pt-3">
               <button
                 onClick={() => handleComponentChange(null)}
-                className="rounded-lg bg-green-700 text-gray-50 font-semibold text-sm py-2 px-4 md:px-6 my-2"
+                className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 my-2"
               >
                 Add user
               </button>
@@ -96,7 +96,7 @@ const Dashboard = () => {
             <div className="text-center pt-3">
               <button
                 onClick={() => handleComponentChange("AddDistrict")}
-                className="rounded-lg bg-green-700 text-gray-50 font-semibold text-sm py-2 px-4 md:px-6 my-2"
+                className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 my-2"
               >
                 Add District
               </button>
@@ -115,7 +115,7 @@ const Dashboard = () => {
             <div className="text-center pt-3">
               <button
                 onClick={() => handleComponentChange("AddTaluka")}
-                className="rounded-lg bg-green-700 text-gray-50 font-semibold text-sm py-2 px-4 md:px-6 my-2"
+                className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 my-2"
               >
                 Add Taluka
               </button>

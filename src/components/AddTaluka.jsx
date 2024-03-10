@@ -119,7 +119,7 @@ const AddTaluka = () => {
         <div className="text-center">
           <button
             type="submit"
-            className="bg-green-500 text-white rounded-lg py-2 w-1/3 text-center"
+            className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 w-1/3 text-center"
           >
             Submit
           </button>
