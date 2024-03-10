@@ -6,31 +6,51 @@ import Select from "@mui/material/Select";
 
 const Signup = () => {
   const [roles, setRoles] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [talukas, setTalukas] = useState([]);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    hierarchyLevel: "", // Changed initial value to empty string
+    hierarchyLevel: "",
+    district: "",
+    sub_district: "",
   });
 
   useEffect(() => {
-    const fetchRoles = async () => {
+    const fetchData = async () => {
       const token = JSON.parse(localStorage.getItem("token"));
       try {
-        const getRoles = await axios.get(
-          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/roles`,
-          {
-            headers: {
-              Authorization: `Bearer ${token.access}`,
-            },
-          }
-        );
-        setRoles(getRoles.data);
+        const [rolesResponse, districtResponse, talukaResponse] =
+          await Promise.all([
+            axios.get(
+              `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/roles`,
+              {
+                headers: { Authorization: `Bearer ${token.access}` },
+              }
+            ),
+            axios.get(
+              `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/district`,
+              {
+                headers: { Authorization: `Bearer ${token.access}` },
+              }
+            ),
+            axios.get(
+              `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/subdistrict`,
+              {
+                headers: { Authorization: `Bearer ${token.access}` },
+              }
+            ),
+          ]);
+
+        setRoles(rolesResponse.data);
+        setDistricts(districtResponse.data);
+        setTalukas(talukaResponse.data);
       } catch (error) {
-        console.log("Error occurred while getting user roles.", error);
+        console.log("Error occurred while fetching data:", error);
       }
     };
 
-    fetchRoles();
+    fetchData();
   }, []);
 
   // Function to handle form input changes
@@ -48,6 +68,24 @@ const Signup = () => {
     setFormData({
       ...formData,
       hierarchyLevel: selectedRoleId,
+    });
+  };
+
+  // Function to handle district selection
+  const handleDistrictChange = (e) => {
+    const selectedDistrictId = e.target.value;
+    setFormData({
+      ...formData,
+      district: selectedDistrictId,
+    });
+  };
+
+  // Function to handle Taluka selection
+  const handleTalukaChange = (e) => {
+    const selectedTalukaId = e.target.value;
+    setFormData({
+      ...formData,
+      sub_district: selectedTalukaId,
     });
   };
 
@@ -71,6 +109,8 @@ const Signup = () => {
         username: "",
         password: "",
         hierarchyLevel: "",
+        district: "",
+        sub_district: "",
       });
     } catch (error) {
       console.log("Error occurred while creating user", error);
@@ -85,14 +125,12 @@ const Signup = () => {
       >
         <div className="text-center">
           <h3 className="font-semibold text-2xl text-green-700">
-            Creata a new user
+            Create a new user
           </h3>
         </div>
-        <div className="flex flex-col ">
+        <div className="flex flex-col">
           <p className="my-0">Username:</p>
-
           <TextField
-            id="standard-basic"
             label=""
             variant="standard"
             type="text"
@@ -102,11 +140,9 @@ const Signup = () => {
             fullWidth
           />
         </div>
-        <div className="flex flex-col ">
+        <div className="flex flex-col">
           <p className="my-0">Password:</p>
-
           <TextField
-            id="standard-basic"
             label=""
             variant="standard"
             type="password"
@@ -116,9 +152,8 @@ const Signup = () => {
             fullWidth
           />
         </div>
-        <div className="flex flex-row items-center gap-2 ">
+        <div className="flex flex-row items-center gap-2">
           <p>Role:</p>
-
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
@@ -130,7 +165,6 @@ const Signup = () => {
             <MenuItem value="">
               <em>Select a role</em>
             </MenuItem>
-
             {roles
               .filter((role) => role.id !== 0) // Exclude role with ID 0
               .map((role) => (
@@ -138,6 +172,45 @@ const Signup = () => {
                   {role.role_name}
                 </MenuItem>
               ))}
+          </Select>
+        </div>
+        <div className="flex flex-row items-center gap-2">
+          <p>District:</p>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            value={formData.district}
+            onChange={handleDistrictChange}
+            fullWidth
+            variant="standard"
+          >
+            <MenuItem value="">
+              <em>Select a District</em>
+            </MenuItem>
+            {districts.map((district) => (
+              <MenuItem key={district.id} value={district.id}>
+                {district.district_name}
+              </MenuItem>
+            ))}
+          </Select>
+        </div>
+        <div className="flex flex-row items-center gap-2">
+          <p>Taluka:</p>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={formData.sub_district}
+            onChange={handleTalukaChange}
+            fullWidth
+            variant="standard"
+          >
+            <MenuItem value="">
+              <em>Select a Taluka</em>
+            </MenuItem>
+            {talukas.map((taluka) => (
+              <MenuItem key={taluka.id} value={taluka.id}>
+                {taluka.sub_district_name}
+              </MenuItem>
+            ))}
           </Select>
         </div>
         <div className="text-center">

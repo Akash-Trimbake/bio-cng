@@ -14,7 +14,7 @@ const UserForms = () => {
       const token = JSON.parse(localStorage.getItem("token"));
       try {
         const users = await axios.get(
-          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/user`,
+          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/user?level=3`,
           {
             headers: { Authorization: `Bearer ${token.access}` },
           }
@@ -73,8 +73,8 @@ const UserForms = () => {
             <em>Select a User</em>
           </MenuItem>
 
-          {users.map((user, index) => (
-            <MenuItem key={user.id} value={user.username}>
+          {users.map((user) => (
+            <MenuItem key={user.id} value={user.id}>
               {user.username}
             </MenuItem>
           ))}

@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import axios from "axios";
+import QRImg from "../assets/QR.jpg";
 
 const UserInfoForm = () => {
   const [fullName, setFullName] = useState("");
@@ -357,6 +358,12 @@ const UserInfoForm = () => {
               <MenuItem value="Other">Other</MenuItem>
             </Select>
           </div>
+
+          {paymentMode === "upi" && (
+            <div className="py-2">
+              <img src={QRImg} alt="QR Image" className="rounded-lg" />
+            </div>
+          )}
 
           <div className="flex flex-row items-center gap-2">
             <p className="">Receipt Number:</p>
