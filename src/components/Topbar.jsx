@@ -7,6 +7,7 @@ const Topbar = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname); // Store current path
 
   useEffect(() => {
     // Check if token exists in local storage
@@ -14,8 +15,17 @@ const Topbar = () => {
     setIsLoggedIn(token !== null);
   }, []);
 
-  // Example: Get the current path from window.location.pathname
-  const currentPath = window.location.pathname;
+  // Update current path when it changes
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    window.addEventListener("popstate", handleLocationChange);
+    return () => {
+      window.removeEventListener("popstate", handleLocationChange);
+    };
+  }, []);
 
   const handleLinkClick = () => {
     // Close the navbar
@@ -55,11 +65,15 @@ const Topbar = () => {
           </button>
         </div>
         <ul
-          className={`${
+          className={`text-center ${
             isMenuOpen ? "block" : "hidden"
           } md:flex flex-col md:flex-row md:items-center gap-6 text-lg font-semibold mt-4 md:mt-0`}
         >
-          <li>
+          <li
+            className={`py-1 ${
+              currentPath === "/" ? "border-b border-[#c5c567]" : "border-b"
+            }`}
+          >
             <a
               href="/"
               className={currentPath === "/" ? active : ""}
@@ -68,7 +82,13 @@ const Topbar = () => {
               Home{" "}
             </a>
           </li>
-          <li>
+          <li
+            className={`py-1 ${
+              currentPath === "/dashboard"
+                ? "border-b border-[#c5c567]"
+                : "border-b"
+            }`}
+          >
             <a
               href="/dashboard"
               className={currentPath === "/dashboard" ? active : ""}
@@ -77,7 +97,13 @@ const Topbar = () => {
               Dashboard{" "}
             </a>
           </li>
-          <li>
+          <li
+            className={`py-1 ${
+              currentPath === "/customer-data"
+                ? "border-b border-[#c5c567]"
+                : "border-b"
+            }`}
+          >
             <a
               href="/customer-data"
               className={currentPath === "/customer-data" ? active : ""}
@@ -86,7 +112,13 @@ const Topbar = () => {
               Customer Data{" "}
             </a>
           </li>
-          <li>
+          <li
+            className={`py-1 ${
+              currentPath === "/contact-us"
+                ? "border-b border-[#c5c567]"
+                : "border-b"
+            }`}
+          >
             <a
               href="/contact-us"
               className={currentPath === "/contact-us" ? active : ""}
@@ -96,7 +128,7 @@ const Topbar = () => {
             </a>
           </li>
           {isLoggedIn ? (
-            <li>
+            <li className="py-1">
               <button
                 onClick={logout}
                 className="text-white bg-red-500 rounded-lg py-1 px-4"
@@ -105,7 +137,13 @@ const Topbar = () => {
               </button>
             </li>
           ) : (
-            <li>
+            <li
+              className={`py-1 ${
+                currentPath === "/login"
+                  ? "border-b-4 border-[#c5c567]"
+                  : "border-b"
+              }`}
+            >
               <a
                 href="/login"
                 className={currentPath === "/login" ? active : ""}
