@@ -71,7 +71,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="">
+    <div className="h-screen">
       <div className="flex flex-col justify-center items-center">
         <p className="text-lg font-semibold text-white my-2">
           Hello {token.claims.username}{" "}
