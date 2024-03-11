@@ -21,35 +21,40 @@ const Signup = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = JSON.parse(localStorage.getItem("token"));
       try {
-        const [rolesResponse, districtResponse, talukaResponse] =
-          await Promise.all([
-            axios.get(
-              `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/roles`,
-              {
-                headers: { Authorization: `Bearer ${token.access}` },
-              }
-            ),
-            axios.get(
-              `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/district`,
-              {
-                headers: { Authorization: `Bearer ${token.access}` },
-              }
-            ),
-            axios.get(
-              `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/subdistrict`,
-              {
-                headers: { Authorization: `Bearer ${token.access}` },
-              }
-            ),
-          ]);
+        const userResponse = await axios.get(
+          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/user`,
+          {
+            headers: { Authorization: `Bearer ${token.access}` },
+          }
+        );
+        setUsers(userResponse.data);
+      } catch (error) {
+        console.log("Error occurred while fetching user data:", error);
+      }
 
-        setRoles(rolesResponse.data);
+      try {
+        const districtResponse = await axios.get(
+          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/district`,
+          {
+            headers: { Authorization: `Bearer ${token.access}` },
+          }
+        );
         setDistricts(districtResponse.data);
+      } catch (error) {
+        console.log("Error occurred while fetching district data:", error);
+      }
+
+      try {
+        const talukaResponse = await axios.get(
+          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/subdistrict`,
+          {
+            headers: { Authorization: `Bearer ${token.access}` },
+          }
+        );
         setTalukas(talukaResponse.data);
       } catch (error) {
-        console.log("Error occurred while fetching data:", error);
+        console.log("Error occurred while fetching taluka data:", error);
       }
     };
 
