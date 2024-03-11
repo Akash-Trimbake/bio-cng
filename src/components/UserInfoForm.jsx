@@ -109,25 +109,25 @@ const UserInfoForm = () => {
         }
 
         // Clear formData after successful form submission
-        // setFullName("");
-        // setGender("");
-        // setDob("");
-        // setAddress("");
-        // setCity("");
-        // setStateProvince("");
-        // setZipCode("");
-        // setPhoneNumber("");
-        // setEmail("");
-        // setAdharNo("");
-        // setNoOfCow("");
-        // setFarmLocation("");
-        // setFarmingType("");
-        // setFarmSize("");
-        // setAmount("");
-        // setPaymentMode("");
-        // setReceiptNo("");
-        // setSignature("");
-        // setDate("");
+        setFullName("");
+        setGender("");
+        setDob("");
+        setAddress("");
+        setCity("");
+        setStateProvince("");
+        setZipCode("");
+        setPhoneNumber("");
+        setEmail("");
+        setAdharNo("");
+        setNoOfCow("");
+        setFarmLocation("");
+        setFarmingType("");
+        setFarmSize("");
+        setAmount("");
+        setPaymentMode("");
+        setReceiptNo("");
+        setSignature("");
+        setDate("");
       } catch (error) {
         console.log("Error occurred while submitting Form", error);
       } finally {
