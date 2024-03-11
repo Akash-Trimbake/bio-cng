@@ -3,6 +3,9 @@ import axios from "axios";
 import Signup from "./Signup";
 import AddDistrict from "../components/AddDistrict";
 import AddTaluka from "../components/AddTaluka";
+import ShowDistricts from "../components/ShowDistricts";
+import ShowTaluka from "../components/ShowTaluka";
+import ShowUsers from "../components/ShowUsers";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -63,8 +66,14 @@ const Dashboard = () => {
     switch (activeComponent) {
       case "AddDistrict":
         return <AddDistrict />;
+      case "ShowDistrict":
+        return <ShowDistricts districts={districts} />;
       case "AddTaluka":
         return <AddTaluka />;
+      case "ShowTaluka":
+        return <ShowTaluka talukas={talukas} />;
+      case "ShowUsers":
+        return <ShowUsers users={users} />;
       default:
         return <Signup />;
     }
@@ -73,7 +82,7 @@ const Dashboard = () => {
   return (
     <div className="h-screen">
       <div className="flex flex-col justify-center items-center">
-        <p className="text-lg font-semibold text-white my-2">
+        <p className="text-center text-lg font-semibold text-white my-2">
           Hello {token.claims.username}{" "}
           {token.claims.district_name
             ? `( ${token.claims.district_name} )`
@@ -89,12 +98,19 @@ const Dashboard = () => {
                 {users.length}
               </p>
             </div>
-            <div className="text-center pt-3">
+
+            <div className="text-center flex flex-col gap-1 my-2">
               <button
                 onClick={() => handleComponentChange(null)}
-                className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 my-2"
+                className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 "
               >
                 Add user
+              </button>
+              <button
+                onClick={() => handleComponentChange("ShowUsers")}
+                className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 "
+              >
+                Show users
               </button>
             </div>
           </div>
@@ -109,12 +125,18 @@ const Dashboard = () => {
                   {districts.length}
                 </p>
               </div>
-              <div className="text-center pt-3">
+              <div className="text-center flex flex-col gap-1 my-2">
                 <button
                   onClick={() => handleComponentChange("AddDistrict")}
-                  className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 my-2"
+                  className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 "
                 >
                   Add District
+                </button>
+                <button
+                  onClick={() => handleComponentChange("ShowDistrict")}
+                  className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 "
+                >
+                  Show District
                 </button>
               </div>
             </div>
@@ -130,12 +152,19 @@ const Dashboard = () => {
                   {talukas.length}
                 </p>
               </div>
-              <div className="text-center pt-3">
+
+              <div className="text-center flex flex-col gap-1 my-2">
                 <button
                   onClick={() => handleComponentChange("AddTaluka")}
-                  className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 my-2"
+                  className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 "
                 >
                   Add Taluka
+                </button>
+                <button
+                  onClick={() => handleComponentChange("ShowTaluka")}
+                  className="rounded-lg border border-green-700 bg-green-700 text-gray-50 hover:bg-gray-50 hover:text-green-700 font-semibold text-sm py-2 px-4 md:px-6 "
+                >
+                  Show Taluka
                 </button>
               </div>
             </div>
