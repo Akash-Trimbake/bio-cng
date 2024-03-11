@@ -22,7 +22,7 @@ const UserForms = () => {
       } else if (token.claims.hierarchyLevel == 2) {
         endpoint = `/api/user?level=3&subdist=${token.claims.subdistrict}`;
       } else {
-        endpoint = `/api/user?level=3&dist=${token.claims.district}`;
+        endpoint = `/api/user?level=3`;
       }
 
       try {
