@@ -42,6 +42,7 @@ function a11yProps(index) {
 
 export default function CustomerData() {
   const [value, setValue] = useState(0);
+  const token = JSON.parse(localStorage.getItem("token"));
 
   const handleChange = (event, newValue) => {
     // Reset logs state to null when changing tabs

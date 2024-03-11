@@ -11,7 +11,9 @@ const Home = () => {
   return (
     <div className="h-screen flex flex-col justify-center items-center ">
       <div className="text-center font-extrabold text-white px-2 md:w-1/2 ">
-        <h1 className="text-3xl md:text-7xl">WELCOME TO MHA BIO CNG PROJECT</h1>
+        <h1 className="text-3xl md:text-7xl">
+          WELCOME TO <br /> MHA BIO CNG <br /> PROJECT
+        </h1>
       </div>
 
       {/* <img src={H1Img} alt="Hero Img" /> */}

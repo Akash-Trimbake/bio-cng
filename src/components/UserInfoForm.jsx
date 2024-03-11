@@ -22,7 +22,6 @@ const UserInfoForm = () => {
   const [farmLocation, setFarmLocation] = useState("");
   const [farmingType, setFarmingType] = useState("");
   const [farmSize, setFarmSize] = useState("");
-  const [date, setDate] = useState("");
   const [amount, setAmount] = useState("");
   const [paymentMode, setPaymentMode] = useState("");
   const [receiptNo, setReceiptNo] = useState("");
@@ -51,7 +50,6 @@ const UserInfoForm = () => {
       payment_amount: amount,
       payment_mode: paymentMode, // payment mode : 'cash' or 'upi'
       receipt_number: receiptNo,
-      Date: date,
     };
 
     // Basic validation
@@ -72,8 +70,7 @@ const UserInfoForm = () => {
       farmSize &&
       amount &&
       paymentMode &&
-      receiptNo &&
-      date
+      receiptNo
     ) {
       try {
         const submitForm = await axios.post(
@@ -106,7 +103,6 @@ const UserInfoForm = () => {
         setAmount("");
         setPaymentMode("");
         setReceiptNo("");
-        setDate("");
       } catch (error) {
         console.log("Error occurred while submitting Form", error);
         toast.error("Error occured while creating form.");
@@ -395,24 +391,6 @@ const UserInfoForm = () => {
               type="number"
               value={receiptNo}
               onChange={(e) => setReceiptNo(e.target.value)}
-              fullWidth
-              style={{ flex: 1 }}
-            />
-          </div>
-        </div>
-
-        {/* Signature //////////////////////////////////////////////////////////////////////////////////////////// */}
-
-        <div className="flex flex-col gap-2 mt-16">
-          <div className="flex flex-row items-center gap-2 w-2/3 md:w-1/3">
-            <p className="">Date:</p>
-
-            <TextField
-              label=""
-              variant="standard"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
               fullWidth
               style={{ flex: 1 }}
             />

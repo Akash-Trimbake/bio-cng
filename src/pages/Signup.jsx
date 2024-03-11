@@ -199,22 +199,27 @@ const Signup = () => {
         {formData.hierarchyLevel > 0 && (
           <div className="flex flex-row items-center gap-2">
             <p>District:</p>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              value={formData.district}
-              onChange={handleDistrictChange}
-              fullWidth
-              variant="standard"
-            >
-              <MenuItem value="">
-                <em>Select a District</em>
-              </MenuItem>
-              {districts.map((district) => (
-                <MenuItem key={district.id} value={district.id}>
-                  {district.district_name}
+
+            {token.claims.hierarchyLevel == 1 ? (
+              <p>{token && token.claims.district_name}</p>
+            ) : (
+              <Select
+                labelId="demo-simple-select-standard-label"
+                value={formData.district}
+                onChange={handleDistrictChange}
+                fullWidth
+                variant="standard"
+              >
+                <MenuItem value="">
+                  <em>Select a District</em>
                 </MenuItem>
-              ))}
-            </Select>
+                {districts.map((district) => (
+                  <MenuItem key={district.id} value={district.id}>
+                    {district.district_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
           </div>
         )}
 

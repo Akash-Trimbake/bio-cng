@@ -16,7 +16,9 @@ const UserForms = () => {
       const token = JSON.parse(localStorage.getItem("token"));
       try {
         const users = await axios.get(
-          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/user?level=3`,
+          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/user?level=3&dist=${
+            token.claims.district
+          }`,
           {
             headers: { Authorization: `Bearer ${token.access}` },
           }
