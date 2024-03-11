@@ -200,7 +200,7 @@ const Signup = () => {
           <div className="flex flex-row items-center gap-2">
             <p>District:</p>
 
-            {token.claims.hierarchyLevel == 1 ? (
+            {token.claims.hierarchyLevel >= 1 ? (
               <p>{token && token.claims.district_name}</p>
             ) : (
               <Select
@@ -226,23 +226,27 @@ const Signup = () => {
         {formData.hierarchyLevel > 1 && (
           <div className="flex flex-row items-center gap-2">
             <p>Taluka:</p>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={formData.sub_district}
-              onChange={handleTalukaChange}
-              fullWidth
-              variant="standard"
-            >
-              <MenuItem value="">
-                <em>Select a Taluka</em>
-              </MenuItem>
-              {talukas.map((taluka) => (
-                <MenuItem key={taluka.id} value={taluka.id}>
-                  {taluka.sub_district_name}
+            {token.claims.hierarchyLevel >= 2 ? (
+              <p>{token && token.claims.subdristrict_name}</p>
+            ) : (
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={formData.sub_district}
+                onChange={handleTalukaChange}
+                fullWidth
+                variant="standard"
+              >
+                <MenuItem value="">
+                  <em>Select a Taluka</em>
                 </MenuItem>
-              ))}
-            </Select>
+                {talukas.map((taluka) => (
+                  <MenuItem key={taluka.id} value={taluka.id}>
+                    {taluka.sub_district_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
           </div>
         )}
 

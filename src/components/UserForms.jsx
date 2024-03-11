@@ -14,11 +14,20 @@ const UserForms = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       const token = JSON.parse(localStorage.getItem("token"));
+      let endpoint;
+
+      // Determine the endpoint based on the hierarchical level
+      if (token.claims.hierarchyLevel == 1) {
+        endpoint = `/api/user?level=3&dist=${token.claims.district}`;
+      } else if (token.claims.hierarchyLevel == 2) {
+        endpoint = `/api/user?level=3&subdist=${token.claims.subdistrict}`;
+      } else {
+        endpoint = `/api/user?level=3&dist=${token.claims.district}`;
+      }
+
       try {
         const users = await axios.get(
-          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/user?level=3&dist=${
-            token.claims.district
-          }`,
+          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}${endpoint}`,
           {
             headers: { Authorization: `Bearer ${token.access}` },
           }
