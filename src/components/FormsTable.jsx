@@ -1,7 +1,39 @@
-import React from "react";
+import { useState } from "react";
+import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
+import toast, { Toaster } from "react-hot-toast";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const FormsTable = ({ forms }) => {
+  const token = JSON.parse(localStorage.getItem("token"));
+  const [loadingState, setLoadingState] = useState({}); // Track loading state for each row
+
+  const deleteForm = async (formId) => {
+    setLoadingState((prevLoadingState) => ({
+      ...prevLoadingState,
+      [formId]: true, // Set loading state for the clicked row to true
+    }));
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/form/${formId}`,
+        {
+          headers: { Authorization: `Bearer ${token.access}` },
+        }
+      );
+
+      console.log("response", response);
+      toast.success("Form deleted successfully.");
+    } catch (error) {
+      console.log("error occurred while deleting form", error);
+      toast.error("Error occurred while deleting form.");
+    } finally {
+      setLoadingState((prevLoadingState) => ({
+        ...prevLoadingState,
+        [formId]: false, // Set loading state for the clicked row back to false after deletion attempt
+      }));
+    }
+  };
+
   // Define columns for the DataGrid
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -23,10 +55,29 @@ const FormsTable = ({ forms }) => {
     { field: "payment_mode", headerName: "Payment Mode", width: 160 },
     { field: "receipt_number", headerName: "Receipt Number", width: 160 },
     { field: "Date", headerName: "Date", width: 130 },
+    {
+      field: "delete",
+      headerName: " ",
+      width: 130,
+      renderCell: (params) => (
+        <button
+          onClick={() => deleteForm(params.row.id)}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          disabled={loadingState[params.row.id]} // Disable button when loading state for this row is true
+        >
+          {loadingState[params.row.id] ? (
+            <CircularProgress size={20} /> // Show loader if loading state for this row is true
+          ) : (
+            "Delete" // Show "Delete" text if loading state for this row is false
+          )}
+        </button>
+      ),
+    },
   ];
 
   return (
     <div style={{ height: 400, width: "100%" }}>
+      <Toaster position="top-right" reverseOrder={false} />
       <DataGrid
         rows={forms}
         columns={columns}
