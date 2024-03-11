@@ -18,17 +18,18 @@ const Signup = () => {
     sub_district: "",
   });
   const [loading, setLoading] = useState(false);
+  const token = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userResponse = await axios.get(
-          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/user`,
+          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/roles`,
           {
             headers: { Authorization: `Bearer ${token.access}` },
           }
         );
-        setUsers(userResponse.data);
+        setRoles(userResponse.data);
       } catch (error) {
         console.log("Error occurred while fetching user data:", error);
       }
