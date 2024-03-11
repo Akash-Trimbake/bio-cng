@@ -5,7 +5,6 @@ import Select from "@mui/material/Select";
 import axios from "axios";
 import QRImg from "../assets/QR.jpg";
 import CircularProgress from "@mui/material/CircularProgress";
-import { supabase } from "../helper/supabaseClient";
 import toast, { Toaster } from "react-hot-toast";
 
 const UserInfoForm = () => {
@@ -23,18 +22,12 @@ const UserInfoForm = () => {
   const [farmLocation, setFarmLocation] = useState("");
   const [farmingType, setFarmingType] = useState("");
   const [farmSize, setFarmSize] = useState("");
-  const [signature, setSignature] = useState("");
   const [date, setDate] = useState("");
   const [amount, setAmount] = useState("");
   const [paymentMode, setPaymentMode] = useState("");
   const [receiptNo, setReceiptNo] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleImageChange = (e) => {
-    setSelectedImage(URL.createObjectURL(e.target.files[0]));
-    setSignature(e.target.files[0]);
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); // Start loading
@@ -80,7 +73,6 @@ const UserInfoForm = () => {
       amount &&
       paymentMode &&
       receiptNo &&
-      signature &&
       date
     ) {
       try {
@@ -95,20 +87,6 @@ const UserInfoForm = () => {
         );
         console.log("submitForm data", submitForm.data);
         toast.success("Form submitted successfully.");
-
-        if (submitForm) {
-          let fileName = `${submitForm.data.id}`;
-          console.log("fileName", fileName);
-
-          const { data, error } = await supabase.storage
-            .from("signatures")
-            .upload(fileName, selectedImage, {
-              cacheControl: "3600",
-              upsert: false,
-            });
-
-          console.log("signature upload success", data);
-        }
 
         // Clear formData after successful form submission
         setFullName("");
@@ -128,7 +106,6 @@ const UserInfoForm = () => {
         setAmount("");
         setPaymentMode("");
         setReceiptNo("");
-        setSignature("");
         setDate("");
       } catch (error) {
         console.log("Error occurred while submitting Form", error);
@@ -440,18 +417,6 @@ const UserInfoForm = () => {
               style={{ flex: 1 }}
             />
           </div>
-          <label>
-            Signature:
-            <input type="file" onChange={handleImageChange} />
-          </label>
-
-          {selectedImage && (
-            <img
-              src={selectedImage}
-              alt="Selected signature"
-              className="w-32 h-16 border"
-            />
-          )}
         </div>
 
         <div className="text-center my-4 ">

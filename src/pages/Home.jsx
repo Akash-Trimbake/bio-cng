@@ -3,6 +3,7 @@ import H1Img from "../assets/h1.png";
 
 const Home = () => {
   const navigate = useNavigate();
+  const token = JSON.parse(localStorage.getItem("token"));
 
   const handleButtonClick = () => {
     navigate("/userInfoForm");
@@ -15,12 +16,14 @@ const Home = () => {
 
       <img src={H1Img} alt="Hero Img" />
 
-      <button
-        onClick={handleButtonClick}
-        className="mt-2 py-2 px-3 rounded-lg bg-white text-green-900 hover:bg-green-900 hover:text-gray-50 font-semibold"
-      >
-        Fill out the form to get started.
-      </button>
+      {token && token.claims && token.claims.hierarchyLevel == 3 ? (
+        <button
+          onClick={handleButtonClick}
+          className="mt-2 py-2 px-3 rounded-lg bg-white text-green-900 hover:bg-green-900 hover:text-gray-50 font-semibold"
+        >
+          Fill out the form to get started.
+        </button>
+      ) : null}
     </div>
   );
 };

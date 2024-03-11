@@ -12,9 +12,10 @@ const AddTaluka = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const token = JSON.parse(localStorage.getItem("token"));
+
   useEffect(() => {
     const fetchDistricts = async () => {
-      const token = JSON.parse(localStorage.getItem("token"));
       try {
         const getDistricts = await axios.get(
           `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/district`,
@@ -40,10 +41,14 @@ const AddTaluka = () => {
     setLoading(true); // Start loading
 
     const token = JSON.parse(localStorage.getItem("token"));
+    const dist =
+      token.claims.hierarchyLevel == 1
+        ? token.claims.district
+        : selectedDistrict;
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/subdistrict`,
-        { district: selectedDistrict, sub_district_name: talukaName },
+        { district: dist, sub_district_name: talukaName },
         {
           headers: {
             Authorization: `Bearer ${token.access}`,
@@ -87,26 +92,30 @@ const AddTaluka = () => {
         <div className="flex flex-row items-center gap-2 ">
           <p>District:</p>
 
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={selectedDistrict}
-            onChange={handleRoleChange}
-            fullWidth
-            variant="standard"
-          >
-            <MenuItem value="">
-              <em>Select a district</em>
-            </MenuItem>
+          {token.claims.hierarchyLevel == 1 ? (
+            <p>{token && token.claims.district_name}</p>
+          ) : (
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={selectedDistrict}
+              onChange={handleRoleChange}
+              fullWidth
+              variant="standard"
+            >
+              <MenuItem value="">
+                <em>Select a district</em>
+              </MenuItem>
 
-            {districts
-              .filter((district) => district.id !== 0) // Exclude district with ID 0
-              .map((district) => (
-                <MenuItem key={district.id} value={district.id}>
-                  {district.district_name}
-                </MenuItem>
-              ))}
-          </Select>
+              {districts
+                .filter((district) => district.id !== 0) // Exclude district with ID 0
+                .map((district) => (
+                  <MenuItem key={district.id} value={district.id}>
+                    {district.district_name}
+                  </MenuItem>
+                ))}
+            </Select>
+          )}
         </div>
 
         <div className="flex flex-col">

@@ -152,7 +152,7 @@ const Topbar = () => {
               Contact Us{" "}
             </a>
           </li>
-          {isLoggedIn ? (
+          {token ? (
             <li className="py-1">
               <button
                 onClick={logout}
