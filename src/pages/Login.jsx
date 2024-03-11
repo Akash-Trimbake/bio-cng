@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const Login = () => {
       }
     } catch (error) {
       console.log("error occured while login the user", error);
+      toast.error("Something went wrong.");
     } finally {
       setLoading(false); // Stop loading regardless of success or failure
     }
@@ -47,6 +49,7 @@ const Login = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
+      <Toaster position="top-right" reverseOrder={false} />
       <form
         onSubmit={handleSubmit}
         className="w-4/5 md:w-1/2 bg-white p-8 rounded-xl shadow-lg flex flex-col gap-4"

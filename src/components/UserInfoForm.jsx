@@ -6,6 +6,7 @@ import axios from "axios";
 import QRImg from "../assets/QR.jpg";
 import CircularProgress from "@mui/material/CircularProgress";
 import { supabase } from "../helper/supabaseClient";
+import toast, { Toaster } from "react-hot-toast";
 
 const UserInfoForm = () => {
   const [fullName, setFullName] = useState("");
@@ -93,6 +94,7 @@ const UserInfoForm = () => {
           }
         );
         console.log("submitForm data", submitForm.data);
+        toast.success("Form submitted successfully.");
 
         if (submitForm) {
           let fileName = `${submitForm.data.id}`;
@@ -130,6 +132,7 @@ const UserInfoForm = () => {
         setDate("");
       } catch (error) {
         console.log("Error occurred while submitting Form", error);
+        toast.error("Error occured while creating form.");
       } finally {
         setLoading(false); // Stop loading regardless of success or failure
       }
@@ -141,6 +144,7 @@ const UserInfoForm = () => {
 
   return (
     <div className="flex flex-col justify-center items-center py-4 ">
+      <Toaster position="top-right" reverseOrder={false} />
       <form
         onSubmit={handleSubmit}
         className="w-11/12 md:w-1/2 bg-white rounded-lg py-4 px-4 text-sm"

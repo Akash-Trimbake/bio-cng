@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import CircularProgress from "@mui/material/CircularProgress";
+import toast, { Toaster } from "react-hot-toast";
 
 const Signup = () => {
   const [roles, setRoles] = useState([]);
@@ -94,6 +95,11 @@ const Signup = () => {
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password.length <= 6) {
+      // Notify the user that the password should be more than 6 characters
+      toast.error("Password should be more than 6 characters.");
+      return; // Prevent form submission if the password is not valid
+    }
     setLoading(true); // Start loading
 
     const token = JSON.parse(localStorage.getItem("token"));
@@ -108,6 +114,7 @@ const Signup = () => {
         }
       );
       console.log("Signup data", signup);
+      toast.success("Account created successfully.");
       // Clear formData after successful signup
       setFormData({
         username: "",
@@ -118,6 +125,7 @@ const Signup = () => {
       });
     } catch (error) {
       console.log("Error occurred while creating user", error);
+      toast.error("Error occurred while creating account.");
     } finally {
       setLoading(false); // Stop loading regardless of success or failure
     }
@@ -125,6 +133,7 @@ const Signup = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
+      <Toaster position="top-right" reverseOrder={false} />
       <form
         onSubmit={handleSubmit}
         className="w-4/5 md:w-2/3 bg-white p-8 rounded-xl shadow-lg flex flex-col gap-4"
