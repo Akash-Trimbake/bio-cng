@@ -17,30 +17,39 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [userResponse, districtResponse, talukaResponse] =
-        await Promise.all([
-          axios.get(`${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/user`, {
-            headers: { Authorization: `Bearer ${token.access}` },
-          }),
-          axios.get(
-            `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/district`,
-            {
-              headers: { Authorization: `Bearer ${token.access}` },
-            }
-          ),
-          axios.get(
-            `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/subdistrict`,
-            {
-              headers: { Authorization: `Bearer ${token.access}` },
-            }
-          ),
-        ]);
-
+      const userResponse = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/user`,
+        {
+          headers: { Authorization: `Bearer ${token.access}` },
+        }
+      );
       setUsers(userResponse.data);
+    } catch (error) {
+      console.log("Error occurred while fetching user data:", error);
+    }
+
+    try {
+      const districtResponse = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/district`,
+        {
+          headers: { Authorization: `Bearer ${token.access}` },
+        }
+      );
       setDistricts(districtResponse.data);
+    } catch (error) {
+      console.log("Error occurred while fetching district data:", error);
+    }
+
+    try {
+      const talukaResponse = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/subdistrict`,
+        {
+          headers: { Authorization: `Bearer ${token.access}` },
+        }
+      );
       setTalukas(talukaResponse.data);
     } catch (error) {
-      console.log("Error occurred while fetching data:", error);
+      console.log("Error occurred while fetching taluka data:", error);
     }
   };
 
@@ -62,7 +71,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <div className="flex flex-col justify-center items-center">
         <p className="text-lg font-semibold text-white my-2">
           Hello {token.claims.username}{" "}

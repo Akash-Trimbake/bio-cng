@@ -79,61 +79,63 @@ export default function CustomerData() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="mt-4 mb-2 flex flex-col justify-end items-end">
-        <button
-          onClick={downloadData}
-          className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 px-4 text-center"
-        >
-          Download data
-        </button>
-      </div>
-      <div className="bg-white w-11/12 md:w-2/3 rounded-lg md:py-4">
-        <div>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs value={value} onChange={handleChange} centered>
-              <Tab
-                label="District"
-                {...a11yProps(0)}
-                sx={{
-                  textTransform: "capitalize",
-                  fontSize: "small",
-                  margin: 0,
-                  padding: 0,
-                }}
-              />
-              <Tab
-                label="Taluka"
-                {...a11yProps(1)}
-                sx={{
-                  textTransform: "capitalize",
-                  fontSize: "small",
-                  margin: 0,
-                  padding: 0,
-                }}
-              />
-              <Tab
-                label="Executive"
-                {...a11yProps(2)}
-                sx={{
-                  textTransform: "capitalize",
-                  fontSize: "small",
-                  margin: 0,
-                  padding: 0,
-                }}
-              />
-            </Tabs>
-          </Box>
-          <div className="p-4">
-            <CustomTabPanel value={value} index={0}>
-              <GeoForms type={"district"} />
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
-              <GeoForms type={"taluka"} />
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={2}>
-              <UserForms type={"executive"} />
-            </CustomTabPanel>
+    <div>
+      <div className="flex flex-col justify-center items-center ">
+        <div className="mt-4 mb-2 flex flex-col justify-end items-end">
+          <button
+            onClick={downloadData}
+            className="bg-green-500 border border-green-700 hover:text-green-700 hover:bg-gray-50 text-white rounded-lg py-2 px-4 text-center"
+          >
+            Download data
+          </button>
+        </div>
+        <div className="bg-white w-11/12 md:w-2/3 rounded-lg md:py-4">
+          <div>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs value={value} onChange={handleChange} centered>
+                <Tab
+                  label="District"
+                  {...a11yProps(0)}
+                  sx={{
+                    textTransform: "capitalize",
+                    fontSize: "small",
+                    margin: 0,
+                    padding: 0,
+                  }}
+                />
+                <Tab
+                  label="Taluka"
+                  {...a11yProps(1)}
+                  sx={{
+                    textTransform: "capitalize",
+                    fontSize: "small",
+                    margin: 0,
+                    padding: 0,
+                  }}
+                />
+                <Tab
+                  label="Executive"
+                  {...a11yProps(2)}
+                  sx={{
+                    textTransform: "capitalize",
+                    fontSize: "small",
+                    margin: 0,
+                    padding: 0,
+                  }}
+                />
+              </Tabs>
+            </Box>
+            <div className="p-4">
+              <CustomTabPanel value={value} index={0}>
+                <GeoForms type={"district"} />
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={1}>
+                <GeoForms type={"taluka"} />
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={2}>
+                <UserForms type={"executive"} />
+              </CustomTabPanel>
+            </div>
           </div>
         </div>
       </div>

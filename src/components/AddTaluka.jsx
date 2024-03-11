@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import CircularProgress from "@mui/material/CircularProgress";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddTaluka = () => {
   const [districts, setDistricts] = useState([]);
@@ -56,12 +57,12 @@ const AddTaluka = () => {
         }
       );
       console.log("response", response);
-
+      toast.success("Taluka created successfully.");
       setTalukaName(""); // Clear the talukaName after successful submission
       setError(""); // Clear any previous error messages
     } catch (error) {
       console.log("Error occurred while adding taluka.", error);
-      setError("Error occurred while adding taluka."); // Set error message
+      toast.error("Error occurred while adding taluka."); // Set error message
     } finally {
       setLoading(false); // Stop loading regardless of success or failure
     }
@@ -79,6 +80,7 @@ const AddTaluka = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
+      <Toaster position="top-right" reverseOrder={false} />
       <form
         onSubmit={handleSubmit}
         className="w-4/5 md:w-2/3 bg-white p-8 rounded-xl shadow-lg flex flex-col gap-4"

@@ -9,12 +9,12 @@ const Home = () => {
     navigate("/userInfoForm");
   };
   return (
-    <div className="h-screen md:h-full flex flex-col justify-center items-center ">
+    <div className="h-screen flex flex-col justify-center items-center ">
       <div className="text-center font-extrabold text-white px-2 md:w-1/2 ">
         <h1 className="text-3xl md:text-7xl">WELCOME TO MHA BIO CNG PROJECT</h1>
       </div>
 
-      <img src={H1Img} alt="Hero Img" />
+      {/* <img src={H1Img} alt="Hero Img" /> */}
 
       {token && token.claims && token.claims.hierarchyLevel == 3 ? (
         <button

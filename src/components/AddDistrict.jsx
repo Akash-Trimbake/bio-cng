@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddDistrict = () => {
   const [districtName, setDistrictName] = useState("");
@@ -26,9 +27,11 @@ const AddDistrict = () => {
       );
 
       console.log("response", response);
+      toast.success("District created successfully.");
       setDistrictName(""); // Clear the districtName after successful submission
     } catch (error) {
       console.log("Error occurred while adding district.", error);
+      toast.error("Error occurred while adding district.");
     } finally {
       setLoading(false); // Stop loading regardless of success or failure
     }
@@ -41,6 +44,7 @@ const AddDistrict = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
+      <Toaster position="top-right" reverseOrder={false} />
       <form
         onSubmit={handleSubmit}
         className="w-4/5 md:w-2/3 bg-white p-8 rounded-xl shadow-lg flex flex-col gap-4"
