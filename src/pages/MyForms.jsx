@@ -34,7 +34,7 @@ const MyForms = () => {
   }, []);
 
   return (
-    <div className="h-full md:h-screen">
+    <div className="h-screen">
       <div className="flex flex-col justify-center items-center gap-4 py-4">
         <h2 className="text-white font-semibold">My Forms</h2>
 
