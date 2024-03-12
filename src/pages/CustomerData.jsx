@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import GeoForms from "../components/GeoForms";
 import UserForms from "../components/UserForms";
+import DailyForms from "../components/DailyForms";
 import { supabase } from "../helper/supabaseClient";
 
 function CustomTabPanel(props) {
@@ -92,40 +93,59 @@ export default function CustomerData() {
         </div>
         <div className="bg-white w-11/12 md:w-2/3 rounded-lg md:py-4">
           <div>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Tabs value={value} onChange={handleChange} centered>
-                <Tab
-                  label="District"
-                  {...a11yProps(0)}
-                  sx={{
-                    textTransform: "capitalize",
-                    fontSize: "small",
-                    margin: 0,
-                    padding: 0,
-                  }}
-                />
-                <Tab
-                  label="Taluka"
-                  {...a11yProps(1)}
-                  sx={{
-                    textTransform: "capitalize",
-                    fontSize: "small",
-                    margin: 0,
-                    padding: 0,
-                  }}
-                />
-                <Tab
-                  label="Executive"
-                  {...a11yProps(2)}
-                  sx={{
-                    textTransform: "capitalize",
-                    fontSize: "small",
-                    margin: 0,
-                    padding: 0,
-                  }}
-                />
-              </Tabs>
-            </Box>
+            <div className="flex justify-center items-center overflow-x-hidden">
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  centered
+                  variant="scrollable"
+                  scrollButtons="auto"
+                  aria-label="scrollable auto tabs example"
+                >
+                  <Tab
+                    label="District"
+                    {...a11yProps(0)}
+                    sx={{
+                      textTransform: "capitalize",
+                      fontSize: "small",
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  />
+                  <Tab
+                    label="Taluka"
+                    {...a11yProps(1)}
+                    sx={{
+                      textTransform: "capitalize",
+                      fontSize: "small",
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  />
+                  <Tab
+                    label="Executive"
+                    {...a11yProps(2)}
+                    sx={{
+                      textTransform: "capitalize",
+                      fontSize: "small",
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  />
+                  <Tab
+                    label="Daily Forms"
+                    {...a11yProps(3)}
+                    sx={{
+                      textTransform: "capitalize",
+                      fontSize: "small",
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  />
+                </Tabs>
+              </Box>
+            </div>
             <div className="p-4">
               <CustomTabPanel value={value} index={0}>
                 <GeoForms type={"district"} />
@@ -135,6 +155,9 @@ export default function CustomerData() {
               </CustomTabPanel>
               <CustomTabPanel value={value} index={2}>
                 <UserForms type={"executive"} />
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={3}>
+                <DailyForms type={"daily"} />
               </CustomTabPanel>
             </div>
           </div>

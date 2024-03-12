@@ -76,7 +76,7 @@ const FormsTable = ({ forms }) => {
   ];
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: "100%", width: "100%" }}>
       <Toaster position="top-right" reverseOrder={false} />
       <DataGrid
         rows={forms}
