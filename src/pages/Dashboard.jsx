@@ -87,6 +87,9 @@ const Dashboard = () => {
           {token.claims.district_name
             ? `( ${token.claims.district_name} )`
             : ""}
+          {" "}{token.claims.subdristrict_name
+            ? `( ${token.claims.subdristrict_name} )`
+            : ""}
         </p>
         <div
           className={`grid grid-cols-2 md:${
