@@ -112,6 +112,7 @@ const UserInfoForm = () => {
     } else {
       // Inform the user to fill all fields
       alert("Please fill all fields before submitting.");
+      setLoading(false);
     }
   };
 
