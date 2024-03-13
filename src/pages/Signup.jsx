@@ -7,6 +7,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import toast, { Toaster } from "react-hot-toast";
 
 const Signup = () => {
+  const [loading, setLoading] = useState(false);
+  const token = JSON.parse(localStorage.getItem("token"));
+
+
   const [roles, setRoles] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [talukas, setTalukas] = useState([]);
@@ -14,11 +18,10 @@ const Signup = () => {
     username: "",
     password: "",
     hierarchyLevel: "",
-    district: "",
-    sub_district: "",
+    district: token.claims.district,
+    sub_district: token.claims.sub_district,
   });
-  const [loading, setLoading] = useState(false);
-  const token = JSON.parse(localStorage.getItem("token"));
+
 
   useEffect(() => {
     const fetchData = async () => {
