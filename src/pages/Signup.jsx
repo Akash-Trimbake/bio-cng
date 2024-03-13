@@ -49,17 +49,17 @@ const Signup = () => {
         console.log("Error occurred while fetching district data:", error);
       }
 
-      // try {
-      //   const talukaResponse = await axios.get(
-      //     `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/subdistrict`,
-      //     {
-      //       headers: { Authorization: `Bearer ${token.access}` },
-      //     }
-      //   );
-      //   setTalukas(talukaResponse.data);
-      // } catch (error) {
-      //   console.log("Error occurred while fetching taluka data:", error);
-      // }
+      try {
+        const talukaResponse = await axios.get(
+          `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/subdistrict`,
+          {
+            headers: { Authorization: `Bearer ${token.access}` },
+          }
+        );
+        setTalukas(talukaResponse.data);
+      } catch (error) {
+        console.log("Error occurred while fetching taluka data:", error);
+      }
     };
 
     fetchData();
@@ -101,6 +101,7 @@ const Signup = () => {
         }
       );
       setTalukas(talukaResponse.data);
+      
     } catch (error) {
       console.log("Error occurred while fetching taluka data:", error);
     }
