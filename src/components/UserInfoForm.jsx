@@ -103,6 +103,7 @@ const UserInfoForm = () => {
         setAmount("");
         setPaymentMode("");
         setReceiptNo("");
+        window.location.reload();
       } catch (error) {
         console.log("Error occurred while submitting Form", error);
         toast.error("Error occured while creating form.");

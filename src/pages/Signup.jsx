@@ -10,7 +10,6 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const token = JSON.parse(localStorage.getItem("token"));
 
-
   const [roles, setRoles] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [talukas, setTalukas] = useState([]);
@@ -21,7 +20,6 @@ const Signup = () => {
     district: token.claims.district,
     sub_district: token.claims.sub_district,
   });
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,7 +99,6 @@ const Signup = () => {
         }
       );
       setTalukas(talukaResponse.data);
-      
     } catch (error) {
       console.log("Error occurred while fetching taluka data:", error);
     }
@@ -227,6 +224,7 @@ const Signup = () => {
                 onChange={handleDistrictChange}
                 fullWidth
                 variant="standard"
+                required
               >
                 <MenuItem value="">
                   <em>Select a District</em>
@@ -254,6 +252,7 @@ const Signup = () => {
                 onChange={handleTalukaChange}
                 fullWidth
                 variant="standard"
+                required
               >
                 <MenuItem value="">
                   <em>Select a Taluka</em>

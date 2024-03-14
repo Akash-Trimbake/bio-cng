@@ -24,6 +24,8 @@ const ShowUsers = ({ users }) => {
 
       console.log("response", response);
       toast.success("User deleted successfully.");
+      // Reload the page after successful deletion
+      window.location.reload();
     } catch (error) {
       console.log("error occurred while deleting user", error);
       toast.error("Error occurred while deleting user.");
@@ -37,8 +39,9 @@ const ShowUsers = ({ users }) => {
 
   return (
     <div className="flex flex-col justify-center items-center h-full overflow-auto">
+      <Toaster /> {/* Add Toast container */}
       <div className="w-4/5 md:w-2/3 bg-white p-8 rounded-xl shadow-lg flex flex-col gap-4">
-        {users.length &&
+        {users.length ? (
           users.map((user, index) => (
             <ol key={user.id}>
               <li className="flex flex-roe justify-between items-center">
@@ -50,12 +53,20 @@ const ShowUsers = ({ users }) => {
                 <button
                   onClick={() => deleteUser(user.id)}
                   className="py-1 px-2 rounded-lg bg-red-500 text-white"
+                  disabled={loadingState[user.id]} // Disable button while loading
                 >
-                  Delete
+                  {loadingState[user.id] ? (
+                    <CircularProgress size={20} /> // Show loader if loadingState is true
+                  ) : (
+                    "Delete"
+                  )}
                 </button>
               </li>
             </ol>
-          ))}
+          ))
+        ) : (
+          <p>No users found.</p>
+        )}
       </div>
     </div>
   );
