@@ -8,6 +8,24 @@ const FormsTable = ({ forms }) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const [loadingState, setLoadingState] = useState({}); // Track loading state for each row
 
+  const deleteAllForms = async () => {
+    // Show a toast indicating the deletion process has started
+    toast.loading("Deleting all forms...");
+
+    try {
+      // Iterate through each form and delete it
+      for (const form of forms) {
+        await deleteForm(form.id);
+      }
+
+      // Once all forms are deleted successfully, show a success toast
+      toast.success("All forms deleted successfully.");
+    } catch (error) {
+      // If any error occurs during deletion, show an error toast
+      toast.error("Error occurred while deleting forms.");
+    }
+  };
+
   const deleteForm = async (formId) => {
     setLoadingState((prevLoadingState) => ({
       ...prevLoadingState,
@@ -78,6 +96,18 @@ const FormsTable = ({ forms }) => {
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <Toaster position="top-right" reverseOrder={false} />
+      <div className="flex flex-row justify-end items-center gap-2  pb-2">
+        <p>Total Forms: {forms?.length}</p>
+        {token.claims.hierarchyLevel == 0 && (
+          <button
+            onClick={deleteAllForms}
+            className="bg-red-500 border border-red-700 hover:text-red-700 hover:bg-gray-50 text-white rounded-lg py-2 px-4 text-center"
+          >
+            Delete All Forms
+          </button>
+        )}
+      </div>
+
       <DataGrid
         rows={forms}
         columns={columns}
