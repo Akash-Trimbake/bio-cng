@@ -55,6 +55,7 @@ const FormsTable = ({ forms }) => {
   // Define columns for the DataGrid
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
+    { field: "executive_name", headerName: "Executive Name", width: 150 },
     { field: "full_name", headerName: "Full Name", width: 150 },
     { field: "gender", headerName: "Gender", width: 120 },
     { field: "dob", headerName: "Date of Birth", width: 150 },
