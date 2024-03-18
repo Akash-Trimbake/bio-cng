@@ -98,7 +98,6 @@ export default function CustomerData() {
                 <Tabs
                   value={value}
                   onChange={handleChange}
-                  centered
                   variant="scrollable"
                   scrollButtons="auto"
                   aria-label="scrollable auto tabs example"

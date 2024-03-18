@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import FormsTable from "./FormsTable";
 import CircularProgress from "@mui/material/CircularProgress";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
 
 const DailyForms = () => {
-  const [selectedUser, setSelectedUser] = useState("");
   const [forms, setForms] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("all");
 
   const fetchForms = async () => {
     setLoading(true); // Start loading
@@ -40,6 +42,10 @@ const DailyForms = () => {
     setSelectedDate(e.target.value);
   };
 
+  const handleRadioChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
   return (
     <div className="h-screen">
       <div className="flex flex-row items-center gap-3 ">
@@ -67,8 +73,74 @@ const DailyForms = () => {
       </div>
 
       {forms.length > 0 && (
+        <FormControl>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            value={selectedOption} // Controlled component: value from state
+            onChange={handleRadioChange} // Handler for radio button change
+          >
+            <FormControlLabel
+              value="all"
+              control={<Radio />}
+              label="All Forms"
+            />
+            <FormControlLabel
+              value="collection"
+              control={<Radio />}
+              label="Collection"
+            />
+          </RadioGroup>
+        </FormControl>
+      )}
+
+      {/* Conditionally render content based on selected radio button option */}
+      {selectedOption === "all" && forms.length > 0 && (
         <div className="py-4">
           <FormsTable forms={forms} />
+        </div>
+      )}
+
+      {selectedOption === "collection" && (
+        <div className="py-4">
+          {forms.length > 0 && (
+            <div>
+              <h2 className="text-lg font-semibold mb-2">
+                Executive Daily Collections:
+              </h2>
+              {Object.entries(
+                forms.reduce((acc, form) => {
+                  if (!acc[form.executive_name]) {
+                    acc[form.executive_name] = {
+                      count: 1,
+                      totalPayment: form.payment_amount,
+                    };
+                  } else {
+                    acc[form.executive_name].count++;
+                    acc[form.executive_name].totalPayment +=
+                      form.payment_amount;
+                  }
+                  return acc;
+                }, {})
+              ).map(([executiveName, { count, totalPayment }]) => (
+                <div
+                  key={executiveName}
+                  className="flex flex-row gap-2 items-center"
+                >
+                  <p className="text-md font-semibold text-green-900">
+                    {executiveName}:
+                  </p>
+                  <p className="text-sm font-semibold">₹ {totalPayment}</p>
+                  <p className="text-sm font-semibold text-gray-600">
+                    ( {count} forms )
+                  </p>
+
+                  {/* <p>{`${executiveName}: ₹ ${totalPayment} (${count} forms)`}</p> */}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
