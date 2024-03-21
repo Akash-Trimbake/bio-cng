@@ -22,7 +22,7 @@ const UserInfoForm = () => {
   const [farmLocation, setFarmLocation] = useState("");
   const [farmingType, setFarmingType] = useState("");
   const [farmSize, setFarmSize] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState("500");
   const [paymentMode, setPaymentMode] = useState("");
   const [receiptNo, setReceiptNo] = useState("");
   const [loading, setLoading] = useState(false);
