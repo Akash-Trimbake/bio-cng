@@ -137,6 +137,24 @@ const Topbar = () => {
             </li>
           )}
 
+          {/* {token && token.claims && token.claims.hierarchyLevel === 3 ? (
+            <li
+              className={`py-1 ${
+                currentPath === "/wallet"
+                  ? "border-b border-[#c5c567]"
+                  : "border-b"
+              }`}
+            >
+              <a
+                href="/wallet"
+                className={currentPath === "/wallet" ? active : ""}
+                onClick={handleLinkClick}
+              >
+                Wallet{" "}
+              </a>
+            </li>
+          ) : null} */}
+
           <li
             className={`py-1 ${
               currentPath === "/contact-us"

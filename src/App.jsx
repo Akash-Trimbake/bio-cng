@@ -11,6 +11,8 @@ import PublicRoutes from "./utils/publicRoutes";
 import UserInfoForm from "./components/UserInfoForm";
 import Dashboard from "./pages/Dashboard";
 import MyForms from "./pages/MyForms";
+import ReferralForm from "./pages/ReferralForm";
+import Wallet from "./pages/Wallet";
 
 function App() {
   return (
@@ -25,10 +27,12 @@ function App() {
               <Route path="/my-forms" element={<MyForms />} />
               <Route path="/customer-data" element={<CustomerData />} />
               <Route path="/userInfoForm" element={<UserInfoForm />} />
+              <Route path="/wallet" element={<Wallet />} />
               <Route path="/register" element={<Signup />} />
             </Route>
             <Route path="/" element={<Home />} />
             <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/refer/:referId" element={<ReferralForm />} />
             <Route element={<PublicRoutes />}>
               <Route path="/login" element={<Login />} exact />
             </Route>

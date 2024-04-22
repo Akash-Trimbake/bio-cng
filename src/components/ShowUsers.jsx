@@ -2,12 +2,15 @@ import { useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import CircularProgress from "@mui/material/CircularProgress";
+import { DataGrid } from "@mui/x-data-grid";
 
 const roles = ["Admin", "District Admin", "Taluka Admin", "Customer Executive"];
 
 const ShowUsers = ({ users }) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const [loadingState, setLoadingState] = useState({});
+
+  console.log(users);
 
   const deleteUser = async (userId) => {
     setLoadingState((prevLoadingState) => ({
@@ -37,33 +40,55 @@ const ShowUsers = ({ users }) => {
     }
   };
 
+  const columns = [
+    { field: "id", headerName: "ID", width: 70 },
+    { field: "username", headerName: "UserName", width: 180 },
+    {
+      field: "location",
+      headerName: "Location",
+      width: 200,
+      valueGetter: (params) =>
+        `${params.row.district_name || ""}, ${
+          params.row.subdristrict_name || ""
+        }`,
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      width: 180,
+      valueGetter: (params) => roles[params.row.hierarchyLevel],
+    },
+    {
+      field: "delete",
+      headerName: "Delete",
+      width: 130,
+      renderCell: (params) => (
+        <button
+          onClick={() => deleteUser(params.row.id)}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          disabled={loadingState[params.row.id]}
+        >
+          {loadingState[params.row.id] ? (
+            <CircularProgress size={20} />
+          ) : (
+            "Delete"
+          )}
+        </button>
+      ),
+    },
+  ];
+
   return (
     <div className="flex flex-col justify-center items-center h-full overflow-auto">
       <Toaster /> {/* Add Toast container */}
       <div className="w-4/5 md:w-2/3 bg-white p-8 rounded-xl shadow-lg flex flex-col gap-4">
         {users.length ? (
-          users.map((user, index) => (
-            <ol key={user.id}>
-              <li className="flex flex-roe justify-between items-center">
-                <p>
-                  {index + 1}. {user.username} ( {user.district_name}
-                  {", "}
-                  {user.subdristrict_name} {", "} {roles[user.hierarchyLevel]} )
-                </p>
-                <button
-                  onClick={() => deleteUser(user.id)}
-                  className="py-1 px-2 rounded-lg bg-red-500 text-white"
-                  disabled={loadingState[user.id]} // Disable button while loading
-                >
-                  {loadingState[user.id] ? (
-                    <CircularProgress size={20} /> // Show loader if loadingState is true
-                  ) : (
-                    "Delete"
-                  )}
-                </button>
-              </li>
-            </ol>
-          ))
+          <DataGrid
+            rows={users}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5, 10, 20]}
+          />
         ) : (
           <p>No users found.</p>
         )}
